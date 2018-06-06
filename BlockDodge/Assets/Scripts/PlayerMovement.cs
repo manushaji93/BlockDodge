@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour {
         GameObject.Find("LivesImage0").GetComponent<SpriteRenderer>().enabled = false;
         GameObject.Find("LivesImage1").GetComponent<SpriteRenderer>().enabled = false;
         GameObject.Find("LivesImage2").GetComponent<SpriteRenderer>().enabled = false;
+        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = false;
         GameObject.Find("Score Text").GetComponent<Text>().text = "x" + gameManagerGO.score.ToString();
         GameObject.Find("Lives Text").GetComponent<Text>().text = "x" + gameManagerGO.lives.ToString();
 

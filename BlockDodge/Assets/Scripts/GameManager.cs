@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour {
         Time.fixedDeltaTime = Time.fixedDeltaTime / slowTimeFactor;
 
         GameObject.Find("You Died Image").GetComponent<SpriteRenderer>().enabled = true;
+        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
 
         lives -= 1;
 
