@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -15,7 +16,9 @@ public class PlayerMovement : MonoBehaviour {
 
         gameManagerGO = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
-        playableAreaHalfWidth = 5f;
+        GameObject.Find("Score Text").GetComponent<Text>().text = "x" + gameManagerGO.score.ToString();
+
+        playableAreaHalfWidth = 5f; 
         speed = 15f;
 
         myRB = GetComponent<Rigidbody2D>();

@@ -2,17 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
     float slowTimeFactor;
 
-	// Use this for initialization
-	void Start () {
+    Text scoreText;
+
+    public int score;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+
+        score = 0;
+
+        SceneManager.LoadScene("Level1");
+    }
+
+    void Start()
+    {
 
         slowTimeFactor = 10f;
 
-	}
+    }
 
     public void EndGame()
     {
@@ -30,6 +44,15 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 1f;
         Time.fixedDeltaTime = Time.fixedDeltaTime * slowTimeFactor;
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("Level1");
+    }
+
+    public void UpdateScore (int scoreVal)
+    {
+        scoreText = GameObject.Find("Score Text").GetComponent<Text>();
+
+        score = score + scoreVal;
+
+        scoreText.text = "x" + score.ToString();
     }
 }
