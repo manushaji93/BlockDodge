@@ -16,13 +16,12 @@ public class PlayerMovement : MonoBehaviour {
 
         gameManagerGO = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
-        GameObject.Find("Score Text").GetComponent<Text>().text = "x" + gameManagerGO.score.ToString();
-
         playableAreaHalfWidth = 5f; 
         speed = 15f;
 
         myRB = GetComponent<Rigidbody2D>();
-
+        
+        InitialLoading();
 	}
 	
 	// Update is called once per frame
@@ -38,6 +37,14 @@ public class PlayerMovement : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D collision)
     {
         gameManagerGO.EndGame();
+    }
+
+    void InitialLoading ()
+    {
+
+        GameObject.Find("You Died Image").GetComponent<SpriteRenderer>().enabled = false;
+        GameObject.Find("Score Text").GetComponent<Text>().text = "x" + gameManagerGO.score.ToString();
+
     }
 
 }

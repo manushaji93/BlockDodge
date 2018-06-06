@@ -39,7 +39,9 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 1/slowTimeFactor;
         Time.fixedDeltaTime = Time.fixedDeltaTime / slowTimeFactor;
 
-        yield return new WaitForSeconds(1f / slowTimeFactor);
+        GameObject.Find("You Died Image").GetComponent<SpriteRenderer>().enabled = true;
+
+        yield return new WaitForSeconds(2f / slowTimeFactor);
 
         Time.timeScale = 1f;
         Time.fixedDeltaTime = Time.fixedDeltaTime * slowTimeFactor;
