@@ -2,35 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectibleTextAnimation : MonoBehaviour {
+public class CollectibleTextAnimation : MonoBehaviour
+{
 
     float fadeTime, moveDist;
     Vector3 finalPos;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
 
-        fadeTime = 1f;
+        fadeTime = 1f; //Time to fade out over
 
-        moveDist = 3f;
+        moveDist = 3f; //Distance to move upwards
 
-        finalPos = new Vector3(transform.position.x, transform.position.y + moveDist, transform.position.z);
+        finalPos = new Vector3(transform.position.x, transform.position.y + moveDist, transform.position.z); //Final position to move to
 
         StartCoroutine(FadeOut());
 
-	}
+    }
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, finalPos, Time.deltaTime / fadeTime);
+        transform.position = Vector3.Lerp(transform.position, finalPos, Time.deltaTime / fadeTime); //Move the GO to the final position
     }
 
     // Update is called once per frame
-    IEnumerator FadeOut () {
+    IEnumerator FadeOut()
+    {
 
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Cache the current color of the material, and its initial opacity.
+        // Cache the current color of the material, its initial, and final opacity.
         Color color = spriteRenderer.color;
         float startOpacity = color.a;
         float targetOpacity = 0f;
@@ -42,6 +45,7 @@ public class CollectibleTextAnimation : MonoBehaviour {
         {
             // Step the fade forward one frame.
             t += Time.deltaTime;
+
             // Turn the time into an interpolation factor between 0 and 1.
             float blend = Mathf.Clamp01(t / fadeTime);
 
@@ -55,6 +59,7 @@ public class CollectibleTextAnimation : MonoBehaviour {
             yield return null;
         }
 
+        //Destroy the GO after fading out
         Destroy(gameObject);
 
     }

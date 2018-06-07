@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour { 
+public class PlayerMovement : MonoBehaviour
+{
 
     public GameObject lifePlusOnePrefab;
 
@@ -13,34 +14,39 @@ public class PlayerMovement : MonoBehaviour {
 
     Rigidbody2D myRB;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         gameManagerGO = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
-        playableAreaHalfWidth = 5f; 
+        playableAreaHalfWidth = 5f;
         speed = 15f;
 
         myRB = GetComponent<Rigidbody2D>();
-        
+
         InitialLoading();
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
 
         movePos = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
         movePos = transform.position.x + movePos;
+
+        //Make sure that the player can only move within the playable area.
         movePos = Mathf.Clamp(movePos, -playableAreaHalfWidth, playableAreaHalfWidth);
 
         myRB.MovePosition(new Vector2(movePos, transform.position.y));
-	}
+    }
 
+    //Hit a block, lose a life/end the game.
     void OnCollisionEnter2D(Collision2D collision)
     {
         gameManagerGO.EndGame();
     }
 
+    //Looks like a collectible
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Instantiate(lifePlusOnePrefab, collision.transform.position, Quaternion.identity);
@@ -49,9 +55,9 @@ public class PlayerMovement : MonoBehaviour {
         Destroy(collision.gameObject);
     }
 
-    void InitialLoading ()
+    void InitialLoading()
     {
-
+        //Hide all images and load the correct values at the start of the scene.
         GameObject.Find("You Died Image").GetComponent<SpriteRenderer>().enabled = false;
         GameObject.Find("LivesImage0").GetComponent<SpriteRenderer>().enabled = false;
         GameObject.Find("LivesImage1").GetComponent<SpriteRenderer>().enabled = false;
