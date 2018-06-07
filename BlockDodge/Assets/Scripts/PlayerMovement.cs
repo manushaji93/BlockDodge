@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour { 
+
+    public GameObject lifePlusOnePrefab;
 
     float movePos, speed, playableAreaHalfWidth;
 
@@ -12,8 +14,8 @@ public class PlayerMovement : MonoBehaviour {
     Rigidbody2D myRB;
 
 	// Use this for initialization
-	void Start () {
-
+	void Start ()
+    {
         gameManagerGO = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         playableAreaHalfWidth = 5f; 
@@ -37,6 +39,14 @@ public class PlayerMovement : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D collision)
     {
         gameManagerGO.EndGame();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Instantiate(lifePlusOnePrefab, collision.transform.position, Quaternion.identity);
+        gameManagerGO.lives += 1;
+        gameManagerGO.UpdateLife();
+        Destroy(collision.gameObject);
     }
 
     void InitialLoading ()

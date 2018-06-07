@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     float slowTimeFactor;
 
-    Text scoreText;
+    Text scoreText, livesText;
 
     public int score, lives;
 
@@ -83,6 +83,13 @@ public class GameManager : MonoBehaviour {
         score = score + scoreVal;
 
         scoreText.text = "x" + score.ToString();
+    }
+
+    public void UpdateLife()
+    {
+        livesText = GameObject.Find("Lives Text").GetComponent<Text>();
+
+        livesText.text = "x" + lives.ToString();
     }
 
     void GameOver()
