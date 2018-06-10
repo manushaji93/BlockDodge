@@ -35,7 +35,16 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0); // get first touch since touch count is greater than zero
+
+                // get the touch position from the screen touch to world point
+                movePos = Camera.main.ScreenToWorldPoint(touch.position);
+        }
+        else
+            movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         movePos.z = 0f;
 
         //Make sure that the player can only move within the playable area.
