@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpawnBlocks : MonoBehaviour
 {
@@ -12,7 +10,8 @@ public class SpawnBlocks : MonoBehaviour
 
     GameManager gm;
 
-    float timeToSpawn, spawnRate, lifeSpawnedAt;
+    float timeToSpawn, lifeSpawnedAt, gravity;
+    public float spawnRate;
 
     int spacePos, lifePos, lifeChance;
 
@@ -28,10 +27,13 @@ public class SpawnBlocks : MonoBehaviour
         timeToSpawn = 2f;
 
         //How often should we spawn the block waves.
-        spawnRate = 1f;
+        spawnRate = 2f;
 
         //Not spawned a life collectible yet.
         spawnedLife = false;
+
+        //Gravity on the blocks. Use this to control how fast they fall down.
+        gravity = 0.2f;
 
         gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
@@ -81,7 +83,7 @@ public class SpawnBlocks : MonoBehaviour
                 if (i == lifePos && gm.lives < 3 && lifeChance < 25 && !spawnedLife)
                 {
                     GameObject life = Instantiate(lifePrefab, blocks[i].position, Quaternion.identity);
-                    life.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
+                    life.GetComponent<Rigidbody2D>().gravityScale = gravity;
                     spawnedLife = true;
                     lifeSpawnedAt = Time.time;
                 }
@@ -90,7 +92,7 @@ public class SpawnBlocks : MonoBehaviour
                 else
                 {
                     GameObject block = Instantiate(blockPrefab, blocks[i].position, Quaternion.identity);
-                    block.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
+                    block.GetComponent<Rigidbody2D>().gravityScale = gravity;
                 }
             }
 

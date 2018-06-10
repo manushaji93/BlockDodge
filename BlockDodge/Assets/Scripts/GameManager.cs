@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -43,11 +42,24 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1 / slowTimeFactor;
         Time.fixedDeltaTime = Time.fixedDeltaTime / slowTimeFactor;
 
+        lives -= 1;
+
+        //You are all out of lives, end the game.
+        if (lives == 0)
+        {
+            //To wait for specified seconds based on the time slow factor.
+            yield return new WaitForSeconds(1f / slowTimeFactor);
+
+            Time.timeScale = 0f;
+            Time.fixedDeltaTime = 0f;
+
+            GameOver();
+            yield break;
+        }
+
         //Display the 'You died' text and lives
         GameObject.Find("You Died Image").GetComponent<SpriteRenderer>().enabled = true;
         GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
-
-        lives -= 1;
 
         //To display the current number of lives.
         if (lives != 0)
@@ -67,15 +79,9 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f / slowTimeFactor);
 
-        //You are all out of lives, end the game.
-        if (lives == 0)
-        {
-            Time.timeScale = 0f;
-            Time.fixedDeltaTime = 0f;
-            GameOver();
-        }
+        
         //You have lives left, reload the scene with the score and remaining lives.
-        else
+        if (lives != 0)
         {
             //Return the timescale to normal.
             Time.timeScale = 1f;
@@ -103,6 +109,8 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("Game is over.");
+        //Display the 'Game Over' text.
+        GameObject.Find("Game Over Text").GetComponent<SpriteRenderer>().enabled = true;
+        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
     }
 }
