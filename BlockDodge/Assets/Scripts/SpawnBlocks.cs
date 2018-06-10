@@ -10,7 +10,9 @@ public class SpawnBlocks : MonoBehaviour
 
     GameManager gm;
 
-    float timeToSpawn, lifeSpawnedAt, gravity;
+    InitialSetup isScript;
+
+    float timeToSpawn, lifeSpawnedAt, gravity , twoSpacingUnit, fourSpacingUnit;
     public float spawnRate;
 
     int spacePos, lifePos, lifeChance;
@@ -36,6 +38,12 @@ public class SpawnBlocks : MonoBehaviour
         gravity = 0.2f;
 
         gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+        isScript = GameObject.Find("Initial Setup").GetComponent<InitialSetup>();
+
+        twoSpacingUnit = isScript.spacingUnit * 2f;
+
+        fourSpacingUnit = isScript.spacingUnit * 4f;
 
     }
 
@@ -86,6 +94,7 @@ public class SpawnBlocks : MonoBehaviour
                     life.GetComponent<Rigidbody2D>().gravityScale = gravity;
                     spawnedLife = true;
                     lifeSpawnedAt = Time.time;
+                    life.transform.localScale = new Vector2(twoSpacingUnit, twoSpacingUnit);
                 }
 
                 //Otherwise spawn a block instead.
@@ -93,6 +102,7 @@ public class SpawnBlocks : MonoBehaviour
                 {
                     GameObject block = Instantiate(blockPrefab, blocks[i].position, Quaternion.identity);
                     block.GetComponent<Rigidbody2D>().gravityScale = gravity;
+                    block.transform.localScale = new Vector2(fourSpacingUnit, twoSpacingUnit);
                 }
             }
 

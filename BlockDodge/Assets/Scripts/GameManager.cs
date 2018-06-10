@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Display the 'You died' text and lives
-        GameObject.Find("You Died Image").GetComponent<SpriteRenderer>().enabled = true;
+        GameObject.Find("You Died Image").GetComponent<Image>().enabled = true;
         GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
 
         //To display the current number of lives.
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i <= lives; i++)
             {
-                GameObject.Find("LivesImage" + i.ToString()).GetComponent<SpriteRenderer>().enabled = true;
+                GameObject.Find("LivesImage" + i.ToString()).GetComponent<Image>().enabled = true;
             }
         }
 
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f / slowTimeFactor);
 
         //Remove the 'life' image at the end and update the life counter.
-        GameObject.Find("LivesImage" + lives.ToString()).GetComponent<SpriteRenderer>().enabled = false;
+        GameObject.Find("LivesImage" + lives.ToString()).GetComponent<Image>().enabled = false;
         GameObject.Find("Lives Text").GetComponent<Text>().text = "x" + lives.ToString();
 
         yield return new WaitForSeconds(1f / slowTimeFactor);
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         //Display the 'Game Over' text.
-        GameObject.Find("Game Over Text").GetComponent<SpriteRenderer>().enabled = true;
+        GameObject.Find("Game Over Text").GetComponent<Image>().enabled = true;
         GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
     }
 }

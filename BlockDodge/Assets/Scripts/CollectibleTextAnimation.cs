@@ -8,15 +8,20 @@ public class CollectibleTextAnimation : MonoBehaviour
     float fadeTime, moveDist;
     Vector3 finalPos;
 
+    InitialSetup isScript;
+
     // Use this for initialization
     void Start()
     {
+        isScript = GameObject.Find("Initial Setup").GetComponent<InitialSetup>();
 
         fadeTime = 1f; //Time to fade out over
 
         moveDist = 3f; //Distance to move upwards
 
         finalPos = new Vector3(transform.position.x, transform.position.y + moveDist, transform.position.z); //Final position to move to
+
+        transform.localScale = new Vector2(isScript.spacingUnit * 2f, isScript.spacingUnit * 2f);
 
         StartCoroutine(FadeOut());
 

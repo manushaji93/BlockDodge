@@ -3,75 +3,48 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    Vector3 movePos;
+    float playableAreaHalfWidth, camHeightHalf, camWidthHalf, playableAreaBoundsLeft, playableAreaBoundsRight;
 
-    public GameObject lifePlusOnePrefab;
-
-    float movePos, speed, playableAreaHalfWidth, timeSinceLastCollision;
-
-    GameManager gameManagerGO;
-    SpawnBlocks sb;
-
-    Rigidbody2D myRB;
+    InitialSetup isScript;
 
     // Use this for initialization
     void Start()
     {
-        gameManagerGO = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        sb = GameObject.Find("Blocks Spawner").GetComponent<SpawnBlocks>();
+        isScript = GameObject.Find("Initial Setup").GetComponent<InitialSetup>();
 
-        playableAreaHalfWidth = 5f;
-        speed = 15f;
-        timeSinceLastCollision = Time.time;
+        transform.localScale = new Vector2(isScript.spacingUnit * 4f, isScript.spacingUnit * 4f / 3f);
 
-        myRB = GetComponent<Rigidbody2D>();
+        //Calculate half the cam height
+        camHeightHalf = GameObject.Find("Main Camera").GetComponent<Camera>().orthographicSize;
 
-        InitialLoading();
+        //Calculate half the cam width
+        camWidthHalf = camHeightHalf * GameObject.Find("Main Camera").GetComponent<Camera>().aspect;
+
+        playableAreaHalfWidth = camWidthHalf;
+
+        playableAreaBoundsLeft = -playableAreaHalfWidth + (isScript.spacingUnit * 3f);
+
+        playableAreaBoundsRight = playableAreaHalfWidth - (isScript.spacingUnit * 3f);
+
+        transform.position = new Vector3(transform.position.x, -camHeightHalf + 1f, transform.position.z);
+
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        movePos = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
-        movePos = transform.position.x + movePos;
+        movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        movePos.z = 0f;
 
         //Make sure that the player can only move within the playable area.
-        movePos = Mathf.Clamp(movePos, -playableAreaHalfWidth, playableAreaHalfWidth);
+        movePos.x = Mathf.Clamp(movePos.x, playableAreaBoundsLeft, playableAreaBoundsRight);
 
-        myRB.MovePosition(new Vector2(movePos, transform.position.y));
-    }
+        movePos.y = -camHeightHalf + 1f;
 
-    //Hit a block, lose a life/end the game.
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        //To provide half a wave delay between collision detection so that hitting 2 blocks in one wave does not reduce two lives.
-        if (Time.time >= (timeSinceLastCollision + (sb.spawnRate / 2)))
-        {
-            timeSinceLastCollision = Time.time;
-            gameManagerGO.EndGame();
-        }
-    }
+        transform.position = movePos;
 
-    //Looks like a collectible
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Instantiate(lifePlusOnePrefab, collision.transform.position, Quaternion.identity);
-        gameManagerGO.lives += 1;
-        gameManagerGO.UpdateLife();
-        Destroy(collision.gameObject);
-    }
-
-    void InitialLoading()
-    {
-        //Hide all images and load the correct values at the start of the scene.
-        GameObject.Find("You Died Image").GetComponent<SpriteRenderer>().enabled = false;
-        GameObject.Find("Game Over Text").GetComponent<SpriteRenderer>().enabled = false;
-        GameObject.Find("LivesImage0").GetComponent<SpriteRenderer>().enabled = false;
-        GameObject.Find("LivesImage1").GetComponent<SpriteRenderer>().enabled = false;
-        GameObject.Find("LivesImage2").GetComponent<SpriteRenderer>().enabled = false;
-        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = false;
-        GameObject.Find("Score Text").GetComponent<Text>().text = "x" + gameManagerGO.score.ToString();
-        GameObject.Find("Lives Text").GetComponent<Text>().text = "x" + gameManagerGO.lives.ToString();
 
     }
 
