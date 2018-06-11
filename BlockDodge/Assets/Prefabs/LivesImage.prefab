@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212004888527970916}
   - component: {fileID: 58444795364876864}
   - component: {fileID: 50813943105661704}
+  - component: {fileID: 114993124917661394}
   m_Layer: 0
   m_Name: LivesImage
   m_TagString: Untagged
@@ -56,7 +57,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -77,6 +78,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.05}
   serializedVersion: 2
   m_Radius: 0.45
+--- !u!114 &114993124917661394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1920213195404996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b5ca21fa7860a49bef9219a2f3903b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212004888527970916
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -8,10 +8,17 @@ public class PlayerMovement : MonoBehaviour
 
     InitialSetup isScript;
 
+    GameManager gmGO;
+
+    public bool isNotInGame;
+
     // Use this for initialization
     void Start()
     {
         isScript = GameObject.Find("Initial Setup").GetComponent<InitialSetup>();
+        gmGO = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
+        isNotInGame = false;
 
         transform.localScale = new Vector2(isScript.spacingUnit * 4f, isScript.spacingUnit * 4f / 3f);
 
@@ -35,25 +42,34 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.touchCount > 0)
+        if (!isNotInGame)
         {
-            Touch touch = Input.GetTouch(0); // get first touch since touch count is greater than zero
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0); // get first touch since touch count is greater than zero
 
-                // get the touch position from the screen touch to world point
-                movePos = Camera.main.ScreenToWorldPoint(touch.position);
+                if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
+                {
+                    gmGO.UnpauseGame();
+                    // get the touch position from the screen touch to world point
+                    movePos = Camera.main.ScreenToWorldPoint(touch.position);
+                }
+
+                else if (touch.phase == TouchPhase.Ended)
+                    gmGO.PauseGame();
+            }
+            else
+                movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            movePos.z = 0f;
+
+            //Make sure that the player can only move within the playable area.
+            movePos.x = Mathf.Clamp(movePos.x, playableAreaBoundsLeft, playableAreaBoundsRight);
+
+            movePos.y = -camHeightHalf + 1f;
+
+            transform.position = movePos;
         }
-        else
-            movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        movePos.z = 0f;
-
-        //Make sure that the player can only move within the playable area.
-        movePos.x = Mathf.Clamp(movePos.x, playableAreaBoundsLeft, playableAreaBoundsRight);
-
-        movePos.y = -camHeightHalf + 1f;
-
-        transform.position = movePos;
-
 
     }
 

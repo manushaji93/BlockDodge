@@ -12,7 +12,7 @@ public class SpawnBlocks : MonoBehaviour
 
     InitialSetup isScript;
 
-    float timeToSpawn, lifeSpawnedAt, gravity , twoSpacingUnit, fourSpacingUnit;
+    float timeToSpawn, lifeSpawnedAt, velocity , twoSpacingUnit, fourSpacingUnit;
     public float spawnRate;
 
     int spacePos, lifePos, lifeChance;
@@ -35,7 +35,7 @@ public class SpawnBlocks : MonoBehaviour
         spawnedLife = false;
 
         //Gravity on the blocks. Use this to control how fast they fall down.
-        gravity = 0.2f;
+        velocity = 5f;
 
         gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
@@ -85,13 +85,15 @@ public class SpawnBlocks : MonoBehaviour
 
         for (int i = 0; i < blocks.Length; i++)
         {
+            //float v = Random.Range(velocity - 2f, velocity + 2f);
+
             if (i != spacePos)
             {
                 //If the player has less than 3 lives left, and is eligible to spawn a life collectible at this position, spawn it.
                 if (i == lifePos && gm.lives < 3 && lifeChance < 25 && !spawnedLife)
                 {
                     GameObject life = Instantiate(lifePrefab, blocks[i].position, Quaternion.identity);
-                    life.GetComponent<Rigidbody2D>().gravityScale = gravity;
+                    life.GetComponent<Rigidbody2D>().velocity = Vector2.down * velocity;
                     spawnedLife = true;
                     lifeSpawnedAt = Time.time;
                     life.transform.localScale = new Vector2(twoSpacingUnit, twoSpacingUnit);
@@ -101,7 +103,7 @@ public class SpawnBlocks : MonoBehaviour
                 else
                 {
                     GameObject block = Instantiate(blockPrefab, blocks[i].position, Quaternion.identity);
-                    block.GetComponent<Rigidbody2D>().gravityScale = gravity;
+                    block.GetComponent<Rigidbody2D>().velocity = Vector2.down * velocity;
                     block.transform.localScale = new Vector2(fourSpacingUnit, twoSpacingUnit);
                 }
             }

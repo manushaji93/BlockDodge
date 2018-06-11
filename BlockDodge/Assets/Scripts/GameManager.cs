@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public int score, lives;
 
+    PlayerMovement pmScript;
+
     //Loaded only once when the game starts.
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        pmScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        pmScript.isNotInGame = true;
         StartCoroutine(FinishGame());
     }
 
@@ -47,11 +51,16 @@ public class GameManager : MonoBehaviour
         //You are all out of lives, end the game.
         if (lives == 0)
         {
+
+            GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
+
             //To wait for specified seconds based on the time slow factor.
-            yield return new WaitForSeconds(1f / slowTimeFactor);
+            yield return new WaitForSeconds(0.5f / slowTimeFactor);
 
             Time.timeScale = 0f;
             Time.fixedDeltaTime = 0f;
+
+            UpdateLife();
 
             GameOver();
             yield break;
@@ -111,6 +120,22 @@ public class GameManager : MonoBehaviour
     {
         //Display the 'Game Over' text.
         GameObject.Find("Game Over Text").GetComponent<Image>().enabled = true;
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        Time.fixedDeltaTime = 0f;
+
         GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
     }
+
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 1f;
+
+        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = false;
+    }
+
 }
