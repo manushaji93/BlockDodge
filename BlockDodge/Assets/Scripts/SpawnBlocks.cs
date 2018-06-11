@@ -104,7 +104,7 @@ public class SpawnBlocks : MonoBehaviour
                 {
                     GameObject block = Instantiate(blockPrefab, blocks[i].position, Quaternion.identity);
                     block.GetComponent<Rigidbody2D>().velocity = Vector2.down * velocity;
-                    block.transform.localScale = new Vector2(fourSpacingUnit, twoSpacingUnit);
+                    block.transform.localScale = new Vector2(fourSpacingUnit, fourSpacingUnit);
                 }
             }
 

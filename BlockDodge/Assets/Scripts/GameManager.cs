@@ -122,20 +122,20 @@ public class GameManager : MonoBehaviour
         GameObject.Find("Game Over Text").GetComponent<Image>().enabled = true;
     }
 
-    public void PauseGame()
-    {
-        Time.timeScale = 0f;
-        Time.fixedDeltaTime = 0f;
+    //public void PauseGame()
+    //{
+    //    Time.timeScale = 0f;
+    //    Time.fixedDeltaTime = 0f;
 
-        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
-    }
+    //    GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
+    //}
 
-    public void UnpauseGame()
-    {
-        Time.timeScale = 1f;
-        Time.fixedDeltaTime = 1f;
+    //public void UnpauseGame()
+    //{
+    //    Time.timeScale = 1f;
+    //    Time.fixedDeltaTime = 1f;
 
-        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = false;
-    }
+    //    GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = false;
+    //}
 
 }
