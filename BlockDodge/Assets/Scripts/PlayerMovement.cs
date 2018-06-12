@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
         isNotInGame = false;
 
-        transform.localScale = new Vector2(isScript.spacingUnit * 4f, isScript.spacingUnit * 4f / 3f);
+        transform.localScale = new Vector2(isScript.spacingUnit * 4f, isScript.spacingUnit * 4f);
 
         //Calculate half the cam height
         camHeightHalf = GameObject.Find("Main Camera").GetComponent<Camera>().orthographicSize;
