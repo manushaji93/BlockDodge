@@ -85,7 +85,7 @@ public class SpawnBlocks : MonoBehaviour
 
         for (int i = 0; i < blocks.Length; i++)
         {
-            //float v = Random.Range(velocity - 2f, velocity + 2f);
+            float v = Random.Range(velocity - 1f, velocity + 1f);
 
             if (i != spacePos)
             {
@@ -93,7 +93,7 @@ public class SpawnBlocks : MonoBehaviour
                 if (i == lifePos && gm.lives < 3 && lifeChance < 25 && !spawnedLife)
                 {
                     GameObject life = Instantiate(lifePrefab, blocks[i].position, Quaternion.identity);
-                    life.GetComponent<Rigidbody2D>().velocity = Vector2.down * velocity;
+                    life.GetComponent<Rigidbody2D>().velocity = Vector2.down * v;
                     spawnedLife = true;
                     lifeSpawnedAt = Time.time;
                     life.transform.localScale = new Vector2(twoSpacingUnit, twoSpacingUnit);
@@ -103,7 +103,7 @@ public class SpawnBlocks : MonoBehaviour
                 else
                 {
                     GameObject block = Instantiate(blockPrefab, blocks[i].position, Quaternion.identity);
-                    block.GetComponent<Rigidbody2D>().velocity = Vector2.down * velocity;
+                    block.GetComponent<Rigidbody2D>().velocity = Vector2.down * v;
                     block.transform.localScale = new Vector2(fourSpacingUnit, fourSpacingUnit);
                 }
             }
