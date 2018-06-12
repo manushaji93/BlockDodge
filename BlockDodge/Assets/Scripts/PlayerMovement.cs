@@ -48,11 +48,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 Touch touch = Input.GetTouch(0); // get first touch since touch count is greater than zero
 
-                float offset = Camera.main.ScreenToWorldPoint(touch.position).x - transform.position.x;
-
                 // get the touch position from the screen touch to world point
                 movePos = Camera.main.ScreenToWorldPoint(touch.position);
-                movePos.x = movePos.x - offset;
 
             }
             else
