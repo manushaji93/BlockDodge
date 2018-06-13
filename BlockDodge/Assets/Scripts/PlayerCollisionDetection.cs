@@ -23,11 +23,20 @@ public class PlayerCollisionDetection : MonoBehaviour {
     //Hit a block, lose a life/end the game.
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //To provide half a wave delay between collision detection so that hitting 2 blocks in one wave does not reduce two lives.
-        if (Time.time >= (timeSinceLastCollision + (sb.spawnRate / 2)))
+        Collider2D myCollider = collision.otherCollider;
+
+        if (myCollider.name != "Shield")
         {
-            timeSinceLastCollision = Time.time;
-            gameManagerGO.EndGame();
+            //To provide half a wave delay between collision detection so that hitting 2 blocks in one wave does not reduce two lives.
+            if (Time.time >= (timeSinceLastCollision + (sb.spawnRate / 2)))
+            {
+                timeSinceLastCollision = Time.time;
+                gameManagerGO.EndGame();
+            }
+        }
+        else
+        {
+            Destroy(collision.gameObject);
         }
     }
 
