@@ -31,6 +31,7 @@ public class InitialSetup : MonoBehaviour {
 
         RectTransform scoreRT = GameObject.Find("Score").GetComponent<RectTransform>();
         RectTransform livesRT = GameObject.Find("Lives").GetComponent<RectTransform>();
+        RectTransform totalScoreRT = GameObject.Find("Total Score").GetComponent<RectTransform>();
 
         //Hide all images and load the correct values at the start of the scene.
         GameObject.Find("You Died Image").GetComponent<Image>().enabled = false;
@@ -44,6 +45,20 @@ public class InitialSetup : MonoBehaviour {
         GameObject.Find("Score Text").GetComponent<RectTransform>().anchoredPosition = new Vector2(scoreRT.anchoredPosition.x, scoreRT.anchoredPosition.y - scoreRT.rect.height);
         GameObject.Find("Lives Text").GetComponent<Text>().text = "x" + gameManagerGO.lives.ToString();
         GameObject.Find("Lives Text").GetComponent<RectTransform>().anchoredPosition = new Vector2(livesRT.anchoredPosition.x, livesRT.anchoredPosition.y - livesRT.rect.height);
+        GameObject.Find("Total Score Text").GetComponent<Text>().text = "x" + gameManagerGO.overallScore.ToString();
+        GameObject.Find("Total Score Text").GetComponent<RectTransform>().anchoredPosition = new Vector2(totalScoreRT.anchoredPosition.x, livesRT.anchoredPosition.y - livesRT.rect.height);
+        gameManagerGO.targetScore = gameManagerGO.targetWaves * 4 * 10;
+
+        if (gameManagerGO.level == 1)
+        {
+            GameObject.Find("Total Score").GetComponent<Text>().enabled = false;
+            GameObject.Find("Total Score Text").GetComponent<Text>().enabled = false;
+        }
+        else
+        {
+            GameObject.Find("Total Score").GetComponent<Text>().enabled = true;
+            GameObject.Find("Total Score Text").GetComponent<Text>().enabled = true;
+        }
 
     }
 

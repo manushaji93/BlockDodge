@@ -8,11 +8,13 @@ public class GameManager : MonoBehaviour
 
     float slowTimeFactor; //How much to slow down the time by.
 
-    Text scoreText, livesText;
+    Text scoreText, livesText, totalScoreText;
 
-    public int score, lives;
+    public int score, lives, level, targetWaves, targetScore, overallScore, scoreForRestartingLevel;
 
     PlayerMovement pmScript;
+
+    public bool notInGame;
 
     //Loaded only once when the game starts.
     private void Awake()
@@ -21,8 +23,14 @@ public class GameManager : MonoBehaviour
 
         score = 0;
         lives = 3;
+        level = 1;
+        targetWaves = 20;
+        targetScore = score;
+        overallScore = score;
+        scoreForRestartingLevel = overallScore;
+        notInGame = false;
 
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("1");
     }
 
     void Start()
@@ -32,15 +40,16 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void EndGame()
+    public void PlayerDied()
     {
         pmScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
         pmScript.isNotInGame = true;
-        StartCoroutine(FinishGame());
+        notInGame = true;
+        StartCoroutine(EndLevel());
     }
 
     // Update is called once per frame
-    IEnumerator FinishGame()
+    IEnumerator EndLevel()
     {
         //Slow down the time.
         Time.timeScale = 1 / slowTimeFactor;
@@ -96,6 +105,10 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.fixedDeltaTime * slowTimeFactor;
 
+            overallScore = scoreForRestartingLevel;
+            score = 0;
+            notInGame = false;
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
@@ -103,10 +116,19 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int scoreVal)
     {
         scoreText = GameObject.Find("Score Text").GetComponent<Text>();
+        totalScoreText = GameObject.Find("Total Score Text").GetComponent<Text>();
 
         score = score + scoreVal;
+        overallScore += scoreVal;
 
         scoreText.text = "x" + score.ToString();
+        totalScoreText.text = "x" + overallScore.ToString();
+
+        if (score >= targetScore)
+        {
+            score = 0;
+            NextLevel();
+        }
     }
 
     public void UpdateLife()
@@ -120,6 +142,14 @@ public class GameManager : MonoBehaviour
     {
         //Display the 'Game Over' text.
         GameObject.Find("Game Over Text").GetComponent<Image>().enabled = true;
+    }
+
+    void NextLevel()
+    {
+        level += 1;
+        targetWaves = targetWaves + (level * 2);
+        scoreForRestartingLevel = overallScore;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     //public void PauseGame()

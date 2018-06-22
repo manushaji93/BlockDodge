@@ -35,7 +35,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
             if (Time.time >= (timeSinceLastCollision + (sb.spawnRate / 2)))
             {
                 timeSinceLastCollision = Time.time;
-                gameManagerGO.EndGame();
+                gameManagerGO.PlayerDied();
             }
         }
         else if (myCollider.name == "Shield")

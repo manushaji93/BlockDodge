@@ -23,7 +23,7 @@ public class BlockDestroy : MonoBehaviour
         {
             Destroy(gameObject);
 
-            if (gameObject.tag != "Life" && gameObject.tag != "Shield")
+            if (gameObject.tag != "Life" && gameObject.tag != "Shield" && !GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().notInGame)
             {
                 GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().UpdateScore(10);
             }
