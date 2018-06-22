@@ -35,6 +35,7 @@ public class InitialSetup : MonoBehaviour {
         //Hide all images and load the correct values at the start of the scene.
         GameObject.Find("You Died Image").GetComponent<Image>().enabled = false;
         GameObject.Find("Game Over Text").GetComponent<Image>().enabled = false;
+        GameObject.Find("Player").GetComponent<PlayerCollisionDetection>().shieldObj.SetActive(false);
         GameObject.Find("LivesImage0").GetComponent<Image>().enabled = false;
         GameObject.Find("LivesImage1").GetComponent<Image>().enabled = false;
         GameObject.Find("LivesImage2").GetComponent<Image>().enabled = false;

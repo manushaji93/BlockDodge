@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerCollisionDetection : MonoBehaviour {
 
-    public GameObject lifePlusOnePrefab;
+    public GameObject lifePlusOnePrefab, shieldTextPrefab, shieldObj;
 
     float timeSinceLastCollision;
+
+    public int shieldHitCount;
 
     GameManager gameManagerGO;
     SpawnBlocks sb;
@@ -16,6 +18,8 @@ public class PlayerCollisionDetection : MonoBehaviour {
     {
         gameManagerGO = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         sb = GameObject.Find("Blocks Spawner").GetComponent<SpawnBlocks>();
+
+        shieldHitCount = 0;
 
         timeSinceLastCollision = Time.time;
     }
@@ -34,18 +38,35 @@ public class PlayerCollisionDetection : MonoBehaviour {
                 gameManagerGO.EndGame();
             }
         }
-        else
+        else if (myCollider.name == "Shield")
         {
             Destroy(collision.gameObject);
+            shieldHitCount += 1;
+
+            if (shieldHitCount == 3)
+            {
+                shieldObj.SetActive(false);
+                shieldHitCount = 0;
+            }
         }
     }
 
     //Looks like a collectible
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Instantiate(lifePlusOnePrefab, collision.transform.position, Quaternion.identity);
-        gameManagerGO.lives += 1;
-        gameManagerGO.UpdateLife();
-        Destroy(collision.gameObject);
+        if (collision.gameObject.tag == "Life")
+        {
+            Instantiate(lifePlusOnePrefab, collision.transform.position, Quaternion.identity);
+            gameManagerGO.lives += 1;
+            gameManagerGO.UpdateLife();
+            Destroy(collision.gameObject);
+        }
+
+        else if (collision.gameObject.tag == "Shield")
+        {
+            Instantiate(shieldTextPrefab, collision.transform.position, Quaternion.identity);
+            shieldObj.SetActive(true);
+            Destroy(collision.gameObject);
+        }
     }
 }

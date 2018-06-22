@@ -6,7 +6,7 @@ public class SpawnBlocks : MonoBehaviour
     //Array of spawn points.
     public Transform[] blocks;
 
-    public GameObject blockPrefab, lifePrefab;
+    public GameObject blockPrefab, lifePrefab, shieldPrefab;
 
     GameManager gm;
 
@@ -87,16 +87,31 @@ public class SpawnBlocks : MonoBehaviour
         {
             float v = Random.Range(velocity - 1f, velocity + 1f);
 
+            GameObject playerShield = GameObject.Find("Player").GetComponent<PlayerCollisionDetection>().shieldObj;
+
             if (i != spacePos)
             {
                 //If the player has less than 3 lives left, and is eligible to spawn a life collectible at this position, spawn it.
-                if (i == lifePos && gm.lives < 3 && lifeChance < 25 && !spawnedLife)
+                if (i == lifePos && gm.lives < 3 && lifeChance < 50 && !spawnedLife && !playerShield.activeSelf)
                 {
-                    GameObject life = Instantiate(lifePrefab, blocks[i].position, Quaternion.identity);
-                    life.GetComponent<Rigidbody2D>().velocity = Vector2.down * v;
+                    GameObject life;
+
+                    if (lifeChance < 25)
+                    {
+                        life = Instantiate(lifePrefab, blocks[i].position, Quaternion.identity);
+                        life.GetComponent<Rigidbody2D>().velocity = Vector2.down * v;
+                        life.transform.localScale = new Vector2(twoSpacingUnit, twoSpacingUnit);
+                    }
+                    else if (lifeChance >= 25)
+                    {
+                        life = Instantiate(shieldPrefab, blocks[i].position, Quaternion.identity);
+                        life.GetComponent<Rigidbody2D>().velocity = Vector2.down * v;
+                        life.transform.localScale = new Vector2(twoSpacingUnit, twoSpacingUnit);
+                    }
+
                     spawnedLife = true;
                     lifeSpawnedAt = Time.time;
-                    life.transform.localScale = new Vector2(twoSpacingUnit, twoSpacingUnit);
+                    
                 }
 
                 //Otherwise spawn a block instead.
