@@ -9,7 +9,7 @@ public class InitialSetup : MonoBehaviour {
 
     float camHeightHalf, camWidth;
 
-    public float spacingUnit;
+    public float spacingUnit, spawnRate, blockVelocity;
 
     // Use this for initialization
     void Start () {
@@ -60,6 +60,25 @@ public class InitialSetup : MonoBehaviour {
             GameObject.Find("Total Score Text").GetComponent<Text>().enabled = true;
         }
 
+        /* Using quadratic bezier curve to calculate the required spawn rate and blocks speed:
+         * 
+         * int y = (1 - t) * (1 - t) * startY + 2 * (1 - t) * t * bezierY + t * t * endY;
+         * 
+         * where,
+         * y = value to be calculated
+         * t = 1 / Max. Number of levels
+         * startY = value of y in level 1
+         * endY = value of y in last level
+        */
+
+
+        spawnRate = (Mathf.Pow(1 - (1 / (gameManagerGO.levelLimit) * gameManagerGO.level), 2) * gameManagerGO.spawnIntervalStart) + (2 * (1 - (1 / (gameManagerGO.levelLimit) * gameManagerGO.level)) * (1 / (gameManagerGO.levelLimit) * gameManagerGO.level) * gameManagerGO.spawnIntervalStart) + (Mathf.Pow((1 / (gameManagerGO.levelLimit) * gameManagerGO.level), 2) * gameManagerGO.spawnIntervalLimit);
+
+        Debug.Log("Spawn rate is " + spawnRate + " for level " + gameManagerGO.level + ".");
+
+        blockVelocity = (Mathf.Pow(1 - (1 / (gameManagerGO.levelLimit) * gameManagerGO.level), 2) *gameManagerGO.startVelocity)+(2 * (1 - (1 / (gameManagerGO.levelLimit) * gameManagerGO.level))*(1 / (gameManagerGO.levelLimit) * gameManagerGO.level)*gameManagerGO.startVelocity) + (Mathf.Pow((1 / (gameManagerGO.levelLimit) * gameManagerGO.level), 2) * gameManagerGO.endVelocity);
+
+        Debug.Log("Block velocity is " + blockVelocity + " for level " + gameManagerGO.level + ".");
     }
 
 }

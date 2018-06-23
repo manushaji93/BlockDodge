@@ -5509,7 +5509,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1167286498
 GameObject:
@@ -5539,6 +5539,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spacingUnit: 0
+  spawnRate: 0
+  blockVelocity: 0
 --- !u!4 &1167286500
 Transform:
   m_ObjectHideFlags: 0
@@ -5550,7 +5552,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1246297364
 GameObject:
@@ -10340,7 +10342,7 @@ RectTransform:
   - {fileID: 636203035}
   - {fileID: 840326181}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10419,7 +10421,7 @@ Transform:
   m_LocalScale: {x: 100, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1362751263
 GameObject:
@@ -15343,6 +15345,7 @@ MonoBehaviour:
   shieldPrefab: {fileID: 1223889295074000, guid: e3bebb27d8d0d774ab2594f9cc5fba98,
     type: 2}
   spawnRate: 0
+  velocity: 0
 --- !u!4 &1806931253
 Transform:
   m_ObjectHideFlags: 0
@@ -15360,7 +15363,7 @@ Transform:
   - {fileID: 1634665530}
   - {fileID: 1246297365}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1833537582
 GameObject:
@@ -15440,7 +15443,7 @@ Transform:
   - {fileID: 1362751264}
   - {fileID: 220054065}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1833537585
 Rigidbody2D:
@@ -15480,7 +15483,7 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1833537582}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0

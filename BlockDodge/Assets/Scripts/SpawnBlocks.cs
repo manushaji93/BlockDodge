@@ -12,8 +12,8 @@ public class SpawnBlocks : MonoBehaviour
 
     InitialSetup isScript;
 
-    float timeToSpawn, lifeSpawnedAt, velocity , twoSpacingUnit, fourSpacingUnit;
-    public float spawnRate;
+    float timeToSpawn, lifeSpawnedAt, twoSpacingUnit, fourSpacingUnit;
+    public float spawnRate, velocity;
 
     int spacePos, lifePos, lifeChance;
 
@@ -28,18 +28,18 @@ public class SpawnBlocks : MonoBehaviour
         //Time to spawn the next wave of blocks.
         timeToSpawn = 2f;
 
-        //How often should we spawn the block waves.
-        spawnRate = 2f;
-
         //Not spawned a life collectible yet.
         spawnedLife = false;
-
-        //Gravity on the blocks. Use this to control how fast they fall down.
-        velocity = 5f;
 
         gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         isScript = GameObject.Find("Initial Setup").GetComponent<InitialSetup>();
+
+        //How often should we spawn the block waves.
+        spawnRate = isScript.spawnRate;
+
+        //Gravity on the blocks. Use this to control how fast they fall down.
+        velocity = isScript.blockVelocity;
 
         twoSpacingUnit = isScript.spacingUnit * 2f;
 

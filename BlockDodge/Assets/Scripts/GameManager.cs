@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
 
     Text scoreText, livesText, totalScoreText;
 
-    public int score, lives, level, targetWaves, targetScore, overallScore, scoreForRestartingLevel;
+    public int score, lives, targetWaves, targetScore, overallScore, scoreForRestartingLevel, level;
+
+    public float levelLimit, spawnIntervalLimit, levelStart, spawnIntervalStart, startVelocity, endVelocity;
 
     PlayerMovement pmScript;
 
@@ -24,13 +26,19 @@ public class GameManager : MonoBehaviour
         score = 0;
         lives = 3;
         level = 1;
-        targetWaves = 20;
+        levelStart = 1;
+        levelLimit = 25;
+        spawnIntervalStart = 2;
+        spawnIntervalLimit = 1;
+        startVelocity = 5;
+        endVelocity = 15;
+        targetWaves = 8;
         targetScore = score;
         overallScore = score;
         scoreForRestartingLevel = overallScore;
         notInGame = false;
 
-        SceneManager.LoadScene("1");
+        SceneManager.LoadScene("Level1");
     }
 
     void Start()
