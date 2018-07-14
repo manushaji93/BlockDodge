@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Vector3 movePos;
-    float playableAreaHalfWidth, camHeightHalf, camWidthHalf, playableAreaBoundsLeft, playableAreaBoundsRight;
+    Vector3 movePos, tempPos;
+    float playableAreaHalfWidth, camHeightHalf, camWidthHalf, playableAreaBoundsLeft, playableAreaBoundsRight, playableAreaBoundsUp, playableAreaBoundsDown, posOffsetX, posOffsetY;
 
     InitialSetup isScript;
 
@@ -34,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
 
         playableAreaBoundsRight = playableAreaHalfWidth - (isScript.spacingUnit * 3f);
 
+        playableAreaBoundsUp = camHeightHalf - (transform.localScale.y / 2) - 0.5f;
+
+        playableAreaBoundsDown = -camHeightHalf + (transform.localScale.y / 2) + 0.5f;
+
         transform.position = new Vector3(transform.position.x, -camHeightHalf + 1f, transform.position.z);
 
 
@@ -42,28 +46,54 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!isNotInGame)
+        //if (!isNotInGame)
+        //{
+        if (Input.touchCount > 0)
         {
-            if (Input.touchCount > 0)
+            Touch touch = Input.GetTouch(0); // get first touch since touch count is greater than zero
+
+            // get the touch position from the screen touch to world point
+            if (touch.phase == TouchPhase.Began)
             {
-                Touch touch = Input.GetTouch(0); // get first touch since touch count is greater than zero
+                if (isNotInGame)
+                {
+                    gmGO.UnpauseGame();
+                    isNotInGame = false;
+                }
 
-                // get the touch position from the screen touch to world point
-                movePos = Camera.main.ScreenToWorldPoint(touch.position);
+                tempPos = Camera.main.ScreenToWorldPoint(touch.position);
 
+                posOffsetX = tempPos.x - transform.position.x;
+
+                posOffsetY = tempPos.y - transform.position.y;
             }
-            else
-                movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            else if (touch.phase == TouchPhase.Moved)
+            {
+                movePos = Camera.main.ScreenToWorldPoint(touch.position);
+                //movePos = new Vector3(movePos.x - posOffsetX, movePos.y, movePos.z);
+                movePos = new Vector3(movePos.x - posOffsetX, movePos.y - posOffsetY, movePos.z);
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                gmGO.PauseGame();
 
-            movePos.z = 0f;
+                isNotInGame = true;
+            }
 
-            //Make sure that the player can only move within the playable area.
-            movePos.x = Mathf.Clamp(movePos.x, playableAreaBoundsLeft, playableAreaBoundsRight);
-
-            movePos.y = -camHeightHalf + 1f;
-
-            transform.position = movePos;
         }
+        //else
+        //    movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        movePos.z = 0f;
+
+        //Make sure that the player can only move within the playable area.
+        movePos.x = Mathf.Clamp(movePos.x, playableAreaBoundsLeft, playableAreaBoundsRight);
+
+        //movePos.y = -camHeightHalf + 1f;
+        movePos.y = Mathf.Clamp(movePos.y, playableAreaBoundsDown, playableAreaBoundsUp);
+
+        transform.position = movePos;
+        //}
 
     }
 

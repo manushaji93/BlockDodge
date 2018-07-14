@@ -160,20 +160,20 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    //public void PauseGame()
-    //{
-    //    Time.timeScale = 0f;
-    //    Time.fixedDeltaTime = 0f;
+    public void PauseGame()
+    {
+        Time.timeScale = 1 / slowTimeFactor;
+        Time.fixedDeltaTime = Time.fixedDeltaTime / slowTimeFactor;
 
-    //    GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
-    //}
+        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = true;
+    }
 
-    //public void UnpauseGame()
-    //{
-    //    Time.timeScale = 1f;
-    //    Time.fixedDeltaTime = 1f;
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = Time.fixedDeltaTime * slowTimeFactor;
 
-    //    GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = false;
-    //}
+        GameObject.Find("Game Over BG").GetComponent<SpriteRenderer>().enabled = false;
+    }
 
 }
