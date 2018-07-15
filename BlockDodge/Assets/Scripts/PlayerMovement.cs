@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     {
         //if (!isNotInGame)
         //{
+#if UNITY_ANDROID
+
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0); // get first touch since touch count is greater than zero
@@ -81,8 +83,12 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-        //else
-        //    movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+#elif UNITY_STANDALONE || UNITY_WEBPLAYER
+
+        movePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+#endif
 
         movePos.z = 0f;
 

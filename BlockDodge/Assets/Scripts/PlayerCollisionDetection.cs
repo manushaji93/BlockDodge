@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCollisionDetection : MonoBehaviour {
 
-    public GameObject lifePlusOnePrefab, shieldTextPrefab, shieldObj;
+    public GameObject lifePlusOnePrefab, shieldTextPrefab, shieldObj, shipDestroyedPSPrefab;
 
     float timeSinceLastCollision;
 
@@ -35,7 +35,9 @@ public class PlayerCollisionDetection : MonoBehaviour {
             if (Time.time >= (timeSinceLastCollision + (sb.spawnRate / 2)))
             {
                 timeSinceLastCollision = Time.time;
+                Instantiate(shipDestroyedPSPrefab, transform.position, Quaternion.identity);
                 gameManagerGO.PlayerDied();
+                Destroy(gameObject);
             }
         }
         else if (myCollider.name == "Shield")

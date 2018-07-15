@@ -15518,4 +15518,6 @@ MonoBehaviour:
   shieldTextPrefab: {fileID: 1834586309600104, guid: 5d631515a57ad1a40bdcca861dc4c88a,
     type: 2}
   shieldObj: {fileID: 220054064}
+  shipDestroyedPSPrefab: {fileID: 1779539283698678, guid: 09b614a27491b1b4a83ae6d58482a071,
+    type: 2}
   shieldHitCount: 0
